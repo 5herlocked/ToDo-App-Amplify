@@ -1,13 +1,13 @@
 import React from "react";
 import Card from '@mui/material/Card';
-import {Box, IconButton, Stack, Typography} from "@mui/material";
+import {Grid, IconButton, Stack, Typography} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
 const ToDoItem = (name, description) => {
     return (
         <div>
             <Card>
-                <Box sx={{p: 2, display: 'flex'}}>
+                <Grid sx={{p: 2}} justify="space-between">
                     <Stack spacing={0.5}>
                         <Typography fontWeight={700}>{name}</Typography>
                         <Typography variant="body2">{description}</Typography>
@@ -15,7 +15,7 @@ const ToDoItem = (name, description) => {
                     <IconButton>
                         <Delete sx={{fontSize: 14}}/>
                     </IconButton>
-                </Box>
+                </Grid>
             </Card>
         </div>
     )

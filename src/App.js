@@ -4,9 +4,12 @@ import Amplify, {API, graphqlOperation} from "aws-amplify";
 import {createTodo} from "./graphql/mutations";
 import {listTodos} from "./graphql/queries";
 
+import styles from './App.css';
+
 import awsExports from './aws-exports';
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import {withAuthenticator} from "@aws-amplify/ui-react";
 import ToDoItem from "./components/ToDoItem";
+import {TextField} from "@mui/material";
 
 Amplify.configure(awsExports);
 
@@ -52,15 +55,17 @@ const App = () => {
     }
 
     return (
-        <div style={styles.container}>
-            <h2>Amplify Todos</h2>
-            <input
+        <div style={styles.App}>
+            <div style={styles.container}>
+                <h2>Amplify Todos</h2>
+            </div>
+            <TextField
                 onChange={event => setInput('name', event.target.value)}
                 style={styles.input}
                 value={formState.name}
                 placeholder="Name"
             />
-            <input
+            <TextField
                 onChange={event => setInput('description', event.target.value)}
                 style={styles.input}
                 value={formState.description}
@@ -70,29 +75,13 @@ const App = () => {
 
             {
                 todos.map((todo, index) => (
-                    <div key={todo.id ? todo.id : index} style={styles.todo}>
+                    <div key={todo.id ? todo.id : index} style={styles.AppListItem}>
                         {ToDoItem(todo.name, todo.description)}
                     </div>
                 ))
             }
         </div>
     )
-}
-
-const styles = {
-    container: {
-        width: 400,
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: 20
-    },
-    todo: {marginBottom: 15},
-    input: {border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18},
-    todoName: {fontSize: 20, fontWeight: 'bold'},
-    todoDescription: {marginBottom: 0},
-    button: {backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px'}
 }
 
 export default withAuthenticator(App);
