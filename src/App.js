@@ -63,6 +63,10 @@ const App = () => {
         setTodos(newTodos);
     }
 
+    // TODO: Rework how notes are added.
+    // A thought: Expanding card placed right below the app bar
+    // Expands on click title then has you type in both the title and the description
+    // With a small add ToDo button
     return (
         <div style={styles.App}>
             <AmplifyBar/>
