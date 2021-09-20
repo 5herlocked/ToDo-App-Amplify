@@ -10,6 +10,7 @@ import awsExports from './aws-exports';
 import {withAuthenticator} from "@aws-amplify/ui-react";
 import ToDoItem from "./components/ToDoItem";
 import {TextField} from "@mui/material";
+import AmplifyBar from "./components/AmplifyBar";
 
 Amplify.configure(awsExports);
 
@@ -56,9 +57,7 @@ const App = () => {
 
     return (
         <div style={styles.App}>
-            <div style={styles.container}>
-                <h2>Amplify Todos</h2>
-            </div>
+            <AmplifyBar/>
             <TextField
                 onChange={event => setInput('name', event.target.value)}
                 style={styles.input}
