@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Button from '@mui/material/Button';
 import Amplify, {API, graphqlOperation} from "aws-amplify";
 import {createTodo} from "./graphql/mutations";
 import {listTodos} from "./graphql/queries";
@@ -9,24 +8,18 @@ import styles from './App.css';
 import awsExports from './aws-exports';
 import {withAuthenticator} from "@aws-amplify/ui-react";
 import ToDoList from "./components/ToDoList";
-import {TextField} from "@mui/material";
 import AmplifyBar from "./components/AmplifyBar";
+import NewNote from "./components/NewNote";
+import {Stack} from "@mui/material";
 
 Amplify.configure(awsExports);
 
-const initState = {name: '', description: ''}
-
 const App = () => {
-    const [formState, setFormState] = useState(initState);
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
         fetchTodos();
     }, [])
-
-    function setInput(key, value) {
-        setFormState({...formState, [key]: value});
-    }
 
     async function fetchTodos() {
         try {
@@ -38,7 +31,7 @@ const App = () => {
         }
     }
 
-    async function addTodo() {
+    async function addTodo(formState) {
         try {
             // basic validation
             if (!formState.name || !formState.description) return
@@ -47,7 +40,6 @@ const App = () => {
             // create an array of all previous todos with the new todo
             setTodos([...todos, todo]);
             // reset to default of empty, empty
-            setFormState(initState);
 
             await API.graphql(graphqlOperation(createTodo, {input: todo}));
         } catch (err) {
@@ -63,35 +55,28 @@ const App = () => {
         setTodos(newTodos);
     }
 
-    // TODO: Rework how notes are added.
-    // A thought: Expanding card placed right below the app bar
-    // Expands on click title then has you type in both the title and the description
-    // With a small add ToDo button
     return (
         <div style={styles.App}>
             <AmplifyBar/>
-            <div>
-                <TextField
-                    onChange={event => setInput('name', event.target.value)}
-                    style={styles.input}
-                    value={formState.name}
-                    placeholder="Name"
-                />
-                <TextField
-                    onChange={event => setInput('description', event.target.value)}
-                    style={styles.input}
-                    value={formState.description}
-                    placeholder="Description"
-                />
-            </div>
-            <Button variant="contained" style={styles.button} onClick={addTodo}>Create Todo</Button>
-            <div style={{
-                display: "grid",
-                justifyContent: "center",
-                alignItems: "center",
-                flexGrow: 1,
-            }}>
-                <ToDoList todos={todos} onRemove={handleDelete}/>
+            <div style={{ display: "flex", margin: "auto", justifyContent: "center" }}>
+                <Stack padding={0.8} flexGrow={1} margin={"auto"}>
+                    <div style={{
+                        display: "flex",
+                        flexGrow: 1,
+                        width: 600,
+                    }}>
+                        <NewNote onAdd={addTodo}/>
+                    </div>
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        flexGrow: 1,
+                        width: 600,
+                    }}>
+                        <ToDoList todos={todos} onRemove={handleDelete}/>
+                    </div>
+                </Stack>
             </div>
         </div>
     )

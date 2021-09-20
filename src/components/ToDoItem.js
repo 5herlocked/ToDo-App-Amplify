@@ -5,7 +5,7 @@ import {AlarmAdd, Delete} from "@mui/icons-material";
 
 const ToDoItem = ({todo, handleDelete}) => {
     return (
-        <Card sx={{maxWidth: 600, justifySelf: "center", margin: "32px auto 16px auto"}}>
+        <Card sx={{ flexGrow: 1, width: 600, justifySelf: "center", margin: "32px auto 16px auto" }}>
             <CardHeader
                 action={
                     <IconButton onClick={() => handleDelete(todo.id)}>

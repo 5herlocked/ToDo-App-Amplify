@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
@@ -87,11 +86,6 @@ const AmplifyBar = (loggedIn) => {
     <Box sx={{flexGrow: 1}}>
             <AppBar position={"static"}>
                 <Toolbar>
-                    <IconButton size={"large"}
-                                edge={"start"}
-                                color={"inherit"}>
-                        <MenuIcon/>
-                    </IconButton>
                     <Typography
                         variant={"h6"}
                         noWrap

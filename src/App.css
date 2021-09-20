@@ -1,14 +1,8 @@
 .App {
+  display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-}
-
-.ToDoList {
-  display: flex;
-  flex-direction: column;
-}
-
-.ListItem {
-  margin: 32px auto 16px auto;
+  margin: auto;
 }
 
