@@ -8,7 +8,7 @@ import styles from './App.css';
 
 import awsExports from './aws-exports';
 import {withAuthenticator} from "@aws-amplify/ui-react";
-import ToDoItem from "./components/ToDoItem";
+import ToDoList from "./components/ToDoList";
 import {TextField} from "@mui/material";
 import AmplifyBar from "./components/AmplifyBar";
 
@@ -55,30 +55,40 @@ const App = () => {
         }
     }
 
+    function handleDelete(id) {
+        // Saves network traffic by locally removing the item after
+        // a network request has been sent
+        const newTodos = todos.filter((item) => item.id !== id);
+
+        setTodos(newTodos);
+    }
+
     return (
         <div style={styles.App}>
             <AmplifyBar/>
-            <TextField
-                onChange={event => setInput('name', event.target.value)}
-                style={styles.input}
-                value={formState.name}
-                placeholder="Name"
-            />
-            <TextField
-                onChange={event => setInput('description', event.target.value)}
-                style={styles.input}
-                value={formState.description}
-                placeholder="Description"
-            />
+            <div>
+                <TextField
+                    onChange={event => setInput('name', event.target.value)}
+                    style={styles.input}
+                    value={formState.name}
+                    placeholder="Name"
+                />
+                <TextField
+                    onChange={event => setInput('description', event.target.value)}
+                    style={styles.input}
+                    value={formState.description}
+                    placeholder="Description"
+                />
+            </div>
             <Button variant="contained" style={styles.button} onClick={addTodo}>Create Todo</Button>
-
-            {
-                todos.map((todo, index) => (
-                    <div key={todo.id ? todo.id : index} style={styles.AppListItem}>
-                        {ToDoItem(todo.name, todo.description)}
-                    </div>
-                ))
-            }
+            <div style={{
+                display: "grid",
+                justifyContent: "center",
+                alignItems: "center",
+                flexGrow: 1,
+            }}>
+                <ToDoList todos={todos} onRemove={handleDelete}/>
+            </div>
         </div>
     )
 }
