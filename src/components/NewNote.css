@@ -1,0 +1,22 @@
+.NewNote {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 32px;
+    max-width: 700px;
+}
+
+.TitleTextField {
+    width: 600px;
+    padding: 8px 8px 8px 8px;
+    margin: auto auto 8px auto;
+}
+
+.DescTextField {
+    width: 600px;
+    margin: auto;
+}
+
+.DueDatePicker {
+    margin-top: 8px;
+}

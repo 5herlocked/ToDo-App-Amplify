@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from "react";
 import Amplify, {API, graphqlOperation} from "aws-amplify";
-import {createTodo} from "./graphql/mutations";
+import {createTodo, updateTodo} from "./graphql/mutations";
 import {listTodos} from "./graphql/queries";
-
-import styles from './App.css';
-
 import awsExports from './aws-exports';
 import {withAuthenticator} from "@aws-amplify/ui-react";
 import ToDoList from "./components/ToDoList";
 import AmplifyBar from "./components/AmplifyBar";
 import NewNote from "./components/NewNote";
-import {Stack} from "@mui/material";
+
+import "./App.css";
 
 Amplify.configure(awsExports);
 
@@ -47,36 +45,20 @@ const App = () => {
         }
     }
 
-    function handleDelete(id) {
+    function handleDelete(todo) {
         // Saves network traffic by locally removing the item after
         // a network request has been sent
-        const newTodos = todos.filter((item) => item.id !== id);
+        // const newTodos = todos.filter((item) => item.id !== todo.id);
 
-        setTodos(newTodos);
+        fetchTodos();
     }
 
     return (
-        <div style={styles.App}>
+        <div>
             <AmplifyBar/>
-            <div style={{ display: "flex", margin: "auto", justifyContent: "center" }}>
-                <Stack padding={0.8} flexGrow={1} margin={"auto"}>
-                    <div style={{
-                        display: "flex",
-                        flexGrow: 1,
-                        width: 600,
-                    }}>
-                        <NewNote onAdd={addTodo}/>
-                    </div>
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        flexDirection: "column",
-                        flexGrow: 1,
-                        width: 600,
-                    }}>
-                        <ToDoList todos={todos} onRemove={handleDelete}/>
-                    </div>
-                </Stack>
+            <div className="NoteArea">
+                    <NewNote onAdd={addTodo}/>
+                    <ToDoList todos={todos} onRemove={handleDelete}/>
             </div>
         </div>
     )

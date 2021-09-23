@@ -4,9 +4,10 @@ import {Add} from "@mui/icons-material";
 import DateAdapter from "@mui/lab/AdapterDayjs";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import {LocalizationProvider} from "@mui/lab";
+import "./NewNote.css";
 
 // design borrowed from Google Keep and basic code borrowed from MUI core components examples.
-const initState = {name: '', description: '', dueDate: ''}
+const initState = {title: '', description: '', dueDate: null, status: ''}
 
 const NewNote = ({onAdd}) => {
     const [formState, setFormState] = useState(initState);
@@ -32,7 +33,7 @@ const NewNote = ({onAdd}) => {
     }
 
     function verifyLossFocus() {
-        if (!formState.name || !formState.description) {
+        if (!formState.title || !formState.description) {
             clickHandler(true);
         } else {
             clickHandler(false);
@@ -40,27 +41,25 @@ const NewNote = ({onAdd}) => {
     }
 
     return (
-        <Paper sx={{ width: "600px" }} elevation={paperFocus ? 12 : 6}
+        <Paper className={"NewNote"} elevation={paperFocus ? 12 : 6}
                onMouseEnter={() => focusHandler(true)}
                onMouseLeave={() => focusHandler(false)}>
             <Stack padding={0.8}>
                 <TextField
-                    style={{margin: "auto auto 8px auto"}}
+                    className={"TitleTextField"}
                     onClick={() => clickHandler(true)}
-                    fullWidth={true}
                     onBlur={verifyLossFocus}
                     placeholder={"Title"}
-                    value={formState.name}
-                    onChange={event => setInput('name', event.target.value)}/>
+                    value={formState.title}
+                    onChange={event => setInput('title', event.target.value)}/>
                 <Collapse in={paperExpand} timeout={"auto"} unmountOnExit>
                     <TextField
-                        sx={{flexGrow: 1, margin: "auto"}}
+                        className={"DescTextField"}
                         placeholder={"Description"}
-                        fullWidth={true}
                         multiline={true}
                         value={formState.description}
                         onChange={event => setInput('description', event.target.value)}/>
-                    <div style={{ paddingTop: "8px" }}>
+                    <div className={"DueDatePicker"}>
                         <LocalizationProvider dateAdapter={DateAdapter}>
                             <DateTimePicker
                                 disablePast={true}
@@ -77,6 +76,7 @@ const NewNote = ({onAdd}) => {
                         </IconButton>
                     </div>
                 </Collapse>
+
             </Stack>
         </Paper>
     )
