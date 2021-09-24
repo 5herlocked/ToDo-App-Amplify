@@ -5,4 +5,5 @@ type Todo @model {
   status: String
   dueDate: String
   createdAt: String!
+  updatedAt: String
 }

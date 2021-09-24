@@ -7,7 +7,7 @@ import {LocalizationProvider} from "@mui/lab";
 import "./NewNote.css";
 
 // design borrowed from Google Keep and basic code borrowed from MUI core components examples.
-const initState = {title: '', description: '', dueDate: null, status: ''}
+const initState = {title: '', description: '', dueDate: '', status: '', createdAt: ''}
 
 const NewNote = ({onAdd}) => {
     const [formState, setFormState] = useState(initState);

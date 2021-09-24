@@ -10,6 +10,17 @@
       "StackName": "amplify-lighthalllab-dev-00005",
       "StackId": "arn:aws:cloudformation:us-east-2:311769642312:stack/amplify-lighthalllab-dev-00005/e854b300-1ceb-11ec-9be4-0a7d4ddb90a4",
       "AmplifyAppId": "d26rkdl5ei3re0"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d26rkdl5ei3re0",
+          "type": "manual"
+        }
+      },
+      "auth": {
+        "lighthalllab8cb4916b": {}
+      }
     }
   }
 }

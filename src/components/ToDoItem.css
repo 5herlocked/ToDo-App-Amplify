@@ -1,0 +1,10 @@
+.ToDoList {
+    display: flex;
+    flex-flow: row wrap;
+    justify-items: flex-start;
+}
+
+.ToDoCard {
+    max-width: 600px;
+    margin: 16px auto auto 16px;
+}

@@ -2,13 +2,14 @@ import React, {useState} from "react";
 import Card from '@mui/material/Card';
 import {Button, CardActions, CardContent, CardHeader, IconButton, Menu, MenuItem, Typography} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import "./ToDoList.css"
+import "./ToDoItem.css";
 
 const ToDoItem = ({todo, handleDelete, handleStatus}) => {
-    const [menuView, setMenuView] = useState()(false);
+    const [menuView, setMenuView] = useState(null);
 
     const setStatus = newStatus => {
         handleStatus(todo, newStatus);
+        setMenuView(null);
     }
 
     const handleMenu = (event) => {
@@ -34,7 +35,7 @@ const ToDoItem = ({todo, handleDelete, handleStatus}) => {
             </CardContent>
             <CardActions>
                 <Button onClick={handleMenu}>
-                    {todo.status}
+                    {todo.status == null ? "No Status" : todo.status}
                 </Button>
                 <Menu
                     id="menu-appbar"
