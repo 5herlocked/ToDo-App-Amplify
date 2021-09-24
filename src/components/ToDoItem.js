@@ -1,19 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Card from '@mui/material/Card';
 import {Button, CardActions, CardContent, CardHeader, IconButton, Menu, MenuItem, Typography} from "@mui/material";
-import {AlarmAdd, Delete} from "@mui/icons-material";
+import {Delete} from "@mui/icons-material";
 import "./ToDoList.css"
 
 const ToDoItem = ({todo, handleDelete, handleStatus}) => {
     const [menuView, setMenuView] = useState()(false);
-    const [localToDo, setlocalToDo] = useState(todo);
 
-    useEffect( () => {
-        const setStatus = newStatus => {
-            handleStatus(todo, newStatus);
-        }
-        setStatus(localToDo)
-    });
+    const setStatus = newStatus => {
+        handleStatus(todo, newStatus);
+    }
 
     const handleMenu = (event) => {
         setMenuView(event.currentTarget);
