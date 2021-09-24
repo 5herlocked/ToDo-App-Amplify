@@ -93,12 +93,6 @@ const AmplifyBar = (loggedIn) => {
                         style={{flexGrow: 1}}>
                         Amplify Notes
                     </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon/>
-                        </SearchIconWrapper>
-                        <StyledInputBase placeholder={"Search..."}/>
-                    </Search>
                     {
                         auth && (
                             <div style={{ align: 'flex-end' }}>

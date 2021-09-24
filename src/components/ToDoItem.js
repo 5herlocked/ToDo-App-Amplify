@@ -1,8 +1,21 @@
 import React, {useState} from "react";
 import Card from '@mui/material/Card';
-import {Button, CardActions, CardContent, CardHeader, IconButton, Menu, MenuItem, Typography} from "@mui/material";
+import {
+    Button,
+    CardActions,
+    CardContent,
+    CardHeader,
+    IconButton,
+    Menu,
+    MenuItem,
+    TextField,
+    Typography
+} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import "./ToDoItem.css";
+import DateAdapter from "@mui/lab/AdapterDayjs";
+import DateTimePicker from "@mui/lab/DateTimePicker";
+import {LocalizationProvider} from "@mui/lab";
 
 const ToDoItem = ({todo, handleDelete, handleStatus}) => {
     const [menuView, setMenuView] = useState(null);
@@ -55,6 +68,17 @@ const ToDoItem = ({todo, handleDelete, handleStatus}) => {
                     <MenuItem onClick={() => setStatus('in-progress')}>In Progress</MenuItem>
                     <MenuItem onClick={() => setStatus('overdue')}>Overdue</MenuItem>
                 </Menu>
+                <LocalizationProvider dateAdapter={DateAdapter}>
+                    <DateTimePicker
+                        disablePast={true}
+                        renderInput={(props) => <TextField {...props} />}
+                        label="Due Date"
+                        value={todo.dueDate}
+                        onChange={(newValue) => {
+                            todo.dueDate = newValue.prototype.toISOString();
+                        }}
+                    />
+                </LocalizationProvider>
             </CardActions>
         </Card>
     )
