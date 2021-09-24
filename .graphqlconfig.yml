@@ -1,6 +1,6 @@
 projects:
   lighthalllab:
-    schemaPath: amplify/backend/api/lighthalllab/schema.graphql
+    schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js
     excludes:

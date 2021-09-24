@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {deleteTodo} from '../graphql/mutations.js';
+import {deleteTodo, updateTodo} from '../graphql/mutations.js';
 import {API, graphqlOperation} from "aws-amplify";
 import ToDoItem from "./ToDoItem";
 import "./ToDoList.css";
@@ -31,6 +31,19 @@ const ToDoList = ({todos, onRemove}) => {
         }
         sortArray(sortMethod)
     }, [localToDo, sortMethod]);
+
+    async function updateStatus (todo, newStatus) {
+        try {
+            const updatedToDo = {
+                ...todo,
+                status: newStatus
+            }
+
+            await API.graphql(graphqlOperation(updateTodo, {input: updatedToDo}));
+        } catch (e) {
+            console.log('error updating status', e);
+        }
+    }
 
     async function handleDelete (todo) {
         try {
@@ -80,7 +93,7 @@ const ToDoList = ({todos, onRemove}) => {
                 {
                     localToDo.map((todo, index) => (
                         <div key={todo.id ? todo.id : index} className={"ToDoList"}>
-                            <ToDoItem todo={todo} handleDelete={handleDelete}/>
+                            <ToDoItem todo={todo} handleDelete={handleDelete} handleStatus={updateStatus}/>
                         </div>
                     ))
                 }
