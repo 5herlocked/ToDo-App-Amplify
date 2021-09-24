@@ -1,25 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-lighthalllab-dev-152834-authRole",
-      "UnauthRoleArn": "arn:aws:iam::311769642312:role/amplify-lighthalllab-dev-152834-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::311769642312:role/amplify-lighthalllab-dev-152834-authRole",
+      "AuthRoleName": "amplify-lighthalllab-dev-231229-authRole",
+      "UnauthRoleArn": "arn:aws:iam::311769642312:role/amplify-lighthalllab-dev-231229-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::311769642312:role/amplify-lighthalllab-dev-231229-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-lighthalllab-dev-152834-deployment",
-      "UnauthRoleName": "amplify-lighthalllab-dev-152834-unauthRole",
-      "StackName": "amplify-lighthalllab-dev-152834",
-      "StackId": "arn:aws:cloudformation:us-east-2:311769642312:stack/amplify-lighthalllab-dev-152834/766aee10-17ed-11ec-a744-06cdb3e0640a",
-      "AmplifyAppId": "d2kmx377kva29h"
+      "DeploymentBucketName": "amplify-lighthalllab-dev-231229-deployment",
+      "UnauthRoleName": "amplify-lighthalllab-dev-231229-unauthRole",
+      "StackName": "amplify-lighthalllab-dev-231229",
+      "StackId": "arn:aws:cloudformation:us-east-2:311769642312:stack/amplify-lighthalllab-dev-231229/41ce4b50-1ce5-11ec-8919-027d72036f18",
+      "AmplifyAppId": "dsa72xvhp1t7v"
     },
     "categories": {
       "auth": {
-        "lighthalllab72a250a3": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d2kmx377kva29h",
-          "type": "cicd"
-        }
+        "lighthalllab83521ca6": {}
       }
     }
   }

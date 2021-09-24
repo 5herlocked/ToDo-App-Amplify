@@ -2,13 +2,7 @@ type Todo @model {
   id: ID!
   title: String!
   description: String
-  status: Status
-  dueDate: AWSDateTime
-  createdAt: AWSDateTime
-}
-
-enum Status {
-  COMPLETED
-  INPROGRESS
-  OVERDUE
+  status: String
+  dueDate: String
+  createdAt: String!
 }

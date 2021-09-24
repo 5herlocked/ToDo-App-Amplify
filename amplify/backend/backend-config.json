@@ -8,8 +8,8 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 14,
-              "description": "Lighthall lab demo key"
+              "apiKeyExpirationDays": 7,
+              "description": "Lighthall Lab API"
             }
           },
           "additionalAuthenticationProviders": []
@@ -18,15 +18,13 @@
     }
   },
   "auth": {
-    "lighthalllab72a250a3": {
+    "lighthalllab83521ca6": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "frontendAuthConfig": {
-        "loginMechanisms": [
-          "EMAIL"
-        ],
+        "loginMechanisms": [],
         "signupAttributes": [
           "EMAIL"
         ],
@@ -42,13 +40,6 @@
           "EMAIL"
         ]
       }
-    }
-  },
-  "hosting": {
-    "amplifyhosting": {
-      "service": "amplifyhosting",
-      "type": "cicd",
-      "lastPushTimeStamp": "2021-09-17T21:13:15.434Z"
     }
   }
 }

@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "lighthalllab72a250a3_identitypool_72a250a3",
+    "identityPoolName": "lighthalllab83521ca6_identitypool_83521ca6",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "lighth72a250a3",
-    "userPoolName": "lighthalllab72a250a3_userpool_72a250a3",
+    "resourceNameTruncated": "lighth83521ca6",
+    "userPoolName": "lighthalllab83521ca6_userpool_83521ca6",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -20,9 +20,7 @@
     "requiredAttributes": [
         "email"
     ],
-    "aliasAttributes": [
-        "email"
-    ],
+    "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
@@ -31,10 +29,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "lighth72a250a3_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "lighth83521ca6_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "72a250a3",
-    "resourceName": "lighthalllab72a250a3",
+    "sharedId": "83521ca6",
+    "resourceName": "lighthalllab83521ca6",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
