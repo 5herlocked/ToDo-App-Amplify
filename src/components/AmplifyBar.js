@@ -12,7 +12,7 @@ import {alpha, InputBase, styled} from "@mui/material";
 import { Auth } from 'aws-amplify';
 
 // Heavily borrowed from the MUI Component Demo for Appbar's
-const AmplifyBar = (loggedIn) => {
+const AmplifyBar = ({loggedIn, searchCallback}) => {
     const [auth, setAuth] = React.useState(loggedIn);
     const [anchorElevation, setAnchorElevation] = React.useState(null);
 
@@ -93,6 +93,14 @@ const AmplifyBar = (loggedIn) => {
                         style={{flexGrow: 1}}>
                         Amplify Notes
                     </Typography>
+                    <Search>
+                        <SearchIconWrapper>
+                            <SearchIcon/>
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            onChange={(newValue) => {}}
+                            placeholder={"Search..."}/>
+                    </Search>
                     {
                         auth && (
                             <div style={{ align: 'flex-end' }}>
