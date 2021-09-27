@@ -4,15 +4,14 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import {alpha, InputBase, styled} from "@mui/material";
+import {alpha, Autocomplete, InputBase, styled, TextField} from "@mui/material";
 import { Auth } from 'aws-amplify';
 
 // Heavily borrowed from the MUI Component Demo for Appbar's
-const AmplifyBar = ({loggedIn, searchCallback}) => {
+const AmplifyBar = ({loggedIn, searchCallback, todos}) => {
     const [auth, setAuth] = React.useState(loggedIn);
     const [anchorElevation, setAnchorElevation] = React.useState(null);
 
@@ -55,16 +54,6 @@ const AmplifyBar = ({loggedIn, searchCallback}) => {
         },
     }));
 
-    const SearchIconWrapper = styled('div')(({ theme }) => ({
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }));
-
     const StyledInputBase = styled(InputBase)(({ theme }) => ({
         color: 'inherit',
         '& .MuiInputBase-input': {
@@ -93,14 +82,21 @@ const AmplifyBar = ({loggedIn, searchCallback}) => {
                         style={{flexGrow: 1}}>
                         Amplify Notes
                     </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon/>
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            onChange={(newValue) => {}}
-                            placeholder={"Search..."}/>
-                    </Search>
+                    <Autocomplete style={Search}
+                                  options={todos.map((option) => option.title)}
+                                  renderInput={(params) => (
+                                      <TextField
+                                          style={StyledInputBase}
+                                          onChange={(value) => searchCallback(value)}
+                                          {...params}
+                                          label="Search Input"
+                                          InputProps={{
+                                              ...params.InputProps,
+                                              type: 'search',
+                                          }}
+                                      />
+                                  )}>
+                    </Autocomplete>
                     {
                         auth && (
                             <div style={{ align: 'flex-end' }}>

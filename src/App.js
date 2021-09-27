@@ -112,12 +112,12 @@ const App = () => {
     }
 
     const handleSearch = (searchVal) => {
-
+        setTodos([...todos].filter((todo) => todo.title === searchVal));
     }
 
     return (
         <div>
-            <AmplifyBar searchCallback={handleSearch}/>
+            <AmplifyBar searchCallback={handleSearch} todos={todos}/>
             <div className="NoteArea">
                 <NewNote onAdd={addTodo}/>
                 <div>
