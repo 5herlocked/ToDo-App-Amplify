@@ -20,7 +20,6 @@ const App = () => {
     const [todos, setTodos] = useState([]);
     const [menuView, setMenuView] = useState(null);
     const [sortMethod, setSortMethod] = useState(null);
-    const [searchValue, setSearchValue] = useState(null);
 
     useEffect(() => {
         fetchTodos();
@@ -112,12 +111,15 @@ const App = () => {
     }
 
     const handleSearch = (searchVal) => {
+        if (searchVal == null || searchVal === '') {
+            return;
+        }
         setTodos([...todos].filter((todo) => todo.title === searchVal));
     }
 
     return (
         <div>
-            <AmplifyBar searchCallback={handleSearch} todos={todos}/>
+            <AmplifyBar searchCallback={handleSearch}/>
             <div className="NoteArea">
                 <NewNote onAdd={addTodo}/>
                 <div>
