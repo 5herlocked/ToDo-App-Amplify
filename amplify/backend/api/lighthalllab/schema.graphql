@@ -1,9 +1,13 @@
-type Todo @model {
-  id: ID!
-  title: String!
-  description: String
-  status: String
-  dueDate: String
-  createdAt: String!
-  updatedAt: String
+type Todo @model
+@auth(rules: [
+    { allow: owner }
+]) {
+    id: ID!
+    title: String!
+    description: String
+    status: String
+    dueDate: String
+    createdAt: String!
+    updatedAt: String
+    owner: String
 }

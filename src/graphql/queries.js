@@ -11,6 +11,7 @@ export const getTodo = /* GraphQL */ `
       dueDate
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -29,6 +30,7 @@ export const listTodos = /* GraphQL */ `
         dueDate
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

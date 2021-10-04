@@ -14,6 +14,7 @@ export const createTodo = /* GraphQL */ `
       dueDate
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -30,6 +31,7 @@ export const updateTodo = /* GraphQL */ `
       dueDate
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -46,6 +48,7 @@ export const deleteTodo = /* GraphQL */ `
       dueDate
       createdAt
       updatedAt
+      owner
     }
   }
 `;

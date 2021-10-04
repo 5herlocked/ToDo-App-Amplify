@@ -17,13 +17,9 @@ import DateAdapter from "@mui/lab/AdapterDayjs";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import {LocalizationProvider} from "@mui/lab";
 
-const ToDoItem = ({todo, handleDelete, handleStatus}) => {
+const ToDoItem = ({todo, handleUpdate}) => {
     const [menuView, setMenuView] = useState(null);
-
-    const setStatus = newStatus => {
-        handleStatus(todo, newStatus);
-        setMenuView(null);
-    }
+    const [dueDateHolder, setDueDateHolder] = useState(todo.dueDate ? todo.dueDate : null);
 
     const handleMenu = (event) => {
         setMenuView(event.currentTarget);
@@ -31,6 +27,27 @@ const ToDoItem = ({todo, handleDelete, handleStatus}) => {
 
     const handleClose = () => {
         setMenuView(null);
+    }
+
+    const handleDelete = (toDelete) => {
+        handleUpdate(toDelete, 'del');
+    }
+
+    const handleStatusChange = (updated) => {
+        const newTodo = {
+            ...todo,
+            status: updated,
+        }
+        handleUpdate(newTodo, 'update');
+    }
+
+    const handleDueDateChange = (newDate) => {
+        const newTodo = {
+            ...todo,
+            dueDate: newDate,
+        }
+        handleUpdate(newTodo, 'update');
+        setDueDateHolder(newDate);
     }
 
     return (
@@ -64,18 +81,22 @@ const ToDoItem = ({todo, handleDelete, handleStatus}) => {
                     }}
                     open={Boolean(menuView)}
                     onClose={handleClose}>
-                    <MenuItem onClick={() => setStatus('completed')}>Completed</MenuItem>
-                    <MenuItem onClick={() => setStatus('in-progress')}>In Progress</MenuItem>
-                    <MenuItem onClick={() => setStatus('overdue')}>Overdue</MenuItem>
+                    <MenuItem onClick={() => handleStatusChange('completed')}>Completed</MenuItem>
+                    <MenuItem onClick={() => handleStatusChange('in-progress')}>In Progress</MenuItem>
+                    <MenuItem onClick={() => handleStatusChange('overdue')}>Overdue</MenuItem>
                 </Menu>
                 <LocalizationProvider dateAdapter={DateAdapter}>
                     <DateTimePicker
                         disablePast={true}
                         renderInput={(props) => <TextField {...props} />}
                         label="Due Date"
-                        value={todo.dueDate}
+                        value={todo.dueDate ? todo.dueDate : dueDateHolder}
                         onChange={(newValue) => {
-                            todo.dueDate = newValue.prototype.toISOString();
+                            setDueDateHolder(newValue.toISOString());
+                        }}
+                        onAccept={(newValue) => {
+                            const val = newValue.toISOString();
+                            handleDueDateChange(val);
                         }}
                     />
                 </LocalizationProvider>

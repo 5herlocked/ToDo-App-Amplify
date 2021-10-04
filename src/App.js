@@ -15,35 +15,19 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 Amplify.configure(awsExports);
+var _ = require('lodash');
 
 const App = () => {
     const [todos, setTodos] = useState([]);
     const [menuView, setMenuView] = useState(null);
     const [sortMethod, setSortMethod] = useState(null);
+    const [searchVal, setSearchVal] = useState(null);
 
     useEffect(() => {
         fetchTodos();
     }, []);
 
-    const sortArray = (method) => {
-        setSortMethod(method);
-        if (sortMethod == null || todos.length <= 0) {
-            return;
-        }
-
-        const methods = {
-            title: 'title',
-            description: 'description',
-            createdAt: 'createdAt',
-            status: 'status',
-            dueDate: 'dueDate',
-        };
-        const sortProp = methods[method];
-        const sorted = [...todos].sort((l, r) => r[sortProp] - l[sortProp]);
-
-        setTodos(sorted);
-    }
-
+    // GraphQL interfaces
     async function fetchTodos() {
         try {
             const todoData = await API.graphql(graphqlOperation(listTodos));
@@ -71,11 +55,10 @@ const App = () => {
         }
     }
 
-    async function updateStatus (todo, newStatus) {
+    async function handleUpdate (todo) {
         try {
             const updatedToDo = {
-                ...todo,
-                status: newStatus
+                ...todo
             }
 
             await API.graphql(graphqlOperation(updateTodo, {input: updatedToDo}));
@@ -97,9 +80,82 @@ const App = () => {
         }
     }
 
+    async function handleChange(todo, action) {
+        switch (action) {
+            case 'del':
+                await handleDelete(todo);
+                break;
+            case 'update':
+                await handleUpdate(todo);
+                break;
+            default:
+                // do nothing
+                break;
+        }
+    }
+
+    // Todo List constructor
+    const TodoList = () => {
+        const methods = {
+            title: 'title',
+            description: 'description',
+            createdAt: 'createdAt',
+            status: 'status',
+            dueDate: 'dueDate',
+        };
+
+        const sortProp = methods[sortMethod];
+
+        let internalTodos = [...todos];
+        if (sortMethod !== '' && sortMethod != null) {
+            let secondarySort = '';
+            switch (sortProp) {
+                case 'title':
+                    secondarySort = methods['description'];
+                    break;
+                case 'description':
+                    secondarySort = methods['title'];
+                    break;
+                case 'dueDate':
+                    secondarySort = methods['title'];
+                    break;
+                case 'status':
+                    secondarySort = methods['title'];
+                    break;
+                case 'createdAt':
+                    secondarySort = methods['title'];
+                    break;
+                default:
+                    secondarySort = methods['description'];
+                    break;
+            }
+            internalTodos = _.orderBy(internalTodos, [sortProp, secondarySort], ['asc', 'asc']);
+        }
+        if (searchVal !== '' && searchVal != null) {
+            internalTodos = internalTodos.filter(
+                (todo) => todo.title.contains(searchVal) || todo.description.contains(searchVal)
+            );
+        }
+
+        return (
+            <div className="ToDoList">
+                {
+                    internalTodos.map((todo, index) => {
+                        return (
+                            <div key={todo.id ? todo.id : index} className="ToDoCard">
+                                <ToDoItem todo={todo} handleUpdate={handleUpdate}/>
+                            </div>
+                        );
+                    })
+                }
+            </div>
+        );
+    }
+
+    // Event handlers/callbacks
     const handleSort = (method) => {
         setMenuView(null);
-        sortArray(method);
+        setSortMethod(method);
     }
 
     const handleMenu = (event) => {
@@ -110,16 +166,13 @@ const App = () => {
         setMenuView(null);
     }
 
-    const handleSearch = (searchVal) => {
-        if (searchVal == null || searchVal === '') {
-            return;
-        }
-        setTodos([...todos].filter((todo) => todo.title === searchVal));
+    const handleSearch = (newSearch) => {
+        setSearchVal(newSearch);
     }
 
     return (
         <div>
-            <AmplifyBar searchCallback={handleSearch}/>
+            <AmplifyBar loggedIn={true} searchCallback={handleSearch}/>
             <div className="NoteArea">
                 <NewNote onAdd={addTodo}/>
                 <div>
@@ -147,17 +200,10 @@ const App = () => {
                         <MenuItem onClick={() => handleSort('description')}>Description</MenuItem>
                         <MenuItem onClick={() => handleSort('status')}>Status</MenuItem>
                         <MenuItem onClick={() => handleSort('dueDate')}>Due Date</MenuItem>
-                        <MenuItem onClick={() => handleSort('createdAt')}>Created At</MenuItem>
                     </Menu>
                 </div>
                 <div className={"ToDoList"}>
-                    {
-                        todos.map((todo, index) => (
-                            <div key={todo.id ? todo.id : index} className={"ToDoCard"}>
-                                <ToDoItem todo={todo} handleDelete={handleDelete} handleStatus={updateStatus}/>
-                            </div>
-                        ))
-                    }
+                    <TodoList/>
                 </div>
             </div>
         </div>
