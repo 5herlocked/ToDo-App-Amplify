@@ -63,9 +63,9 @@ const ToDoItem = ({todo, handleUpdate}) => {
             <CardContent>
                 <Typography variant="body2" color="text.secondary">{todo.description}</Typography>
             </CardContent>
-            <CardActions>
-                <Button onClick={handleMenu}>
-                    {todo.status == null ? "No Status" : todo.status}
+            <CardActions className={"ToDoCardAction"}>
+                <Button variant='contained' className={"StatusButton"} onClick={handleMenu}>
+                    {todo.status === null || todo.status === '' ? "Pending" : todo.status}
                 </Button>
                 <Menu
                     id="menu-appbar"
@@ -81,8 +81,9 @@ const ToDoItem = ({todo, handleUpdate}) => {
                     }}
                     open={Boolean(menuView)}
                     onClose={handleClose}>
-                    <MenuItem onClick={() => handleStatusChange('completed')}>Completed</MenuItem>
-                    <MenuItem onClick={() => handleStatusChange('in-progress')}>In Progress</MenuItem>
+                    <MenuItem onClick={() => handleStatusChange('done')}>Completed</MenuItem>
+                    <MenuItem onClick={() => handleStatusChange('pending')}>Pending</MenuItem>
+                    <MenuItem onClick={() => handleStatusChange('in_progress')}>In Progress</MenuItem>
                     <MenuItem onClick={() => handleStatusChange('overdue')}>Overdue</MenuItem>
                 </Menu>
                 <LocalizationProvider dateAdapter={DateAdapter}>

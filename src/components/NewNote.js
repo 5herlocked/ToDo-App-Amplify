@@ -11,10 +11,9 @@ const initState = {
     title: '',
     description: '',
     dueDate: '',
-    status: '',
+    status: 'pending',
     createdAt: '',
     updatedAt: '',
-    owner: '',
 }
 
 const NewNote = ({onAdd}) => {

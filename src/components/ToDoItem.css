@@ -8,3 +8,13 @@
     max-width: 600px;
     margin: 16px auto auto 16px;
 }
+
+.ToDoCardAction {
+    display: flex;
+    justify-content: space-between;
+}
+
+.StatusButton {
+    padding-right: 8px;
+    margin: auto 8px auto 8px;
+}

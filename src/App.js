@@ -30,7 +30,7 @@ const App = () => {
     // GraphQL interfaces
     async function fetchTodos() {
         try {
-            const todoData = await API.graphql(graphqlOperation(listTodos));
+            const todoData = await API.graphql(graphqlOperation(listTodos), {authMode: 'AMAZON_COGNITO_USER_POOLS'});
             const todos = todoData.data.listTodos.items;
             setTodos(todos);
         } catch (err) {
@@ -45,10 +45,9 @@ const App = () => {
 
             const todo = {...formState};
             // create an array of all previous todos with the new todo
-            setTodos([...todos, todo]);
             // reset to default of empty, empty
 
-            await API.graphql(graphqlOperation(createTodo, {input: todo}));
+            await API.graphql(graphqlOperation(createTodo, {input: todo, authMode: 'AMAZON_COGNITO_USER_POOLS'}));
             await fetchTodos();
         } catch (err) {
             console.log('error creating todo: ', err);
@@ -61,7 +60,12 @@ const App = () => {
                 ...todo
             }
 
-            await API.graphql(graphqlOperation(updateTodo, {input: updatedToDo}));
+            // UpdateToDo is not allowed to have owner
+            delete updatedToDo.owner;
+
+            console.log(updatedToDo);
+
+            await API.graphql(graphqlOperation(updateTodo, {input: updatedToDo, authMode: 'AMAZON_COGNITO_USER_POOLS'}));
             await fetchTodos();
         } catch (e) {
             console.log('error updating status', e);
@@ -73,7 +77,8 @@ const App = () => {
             const toDel = {
                 id: String(todo.id)
             }
-            await API.graphql(graphqlOperation(deleteTodo, {input: toDel}));
+            console.log(toDel);
+            await API.graphql(graphqlOperation(deleteTodo, {input: toDel, authMode: 'AMAZON_COGNITO_USER_POOLS'}));
             await fetchTodos();
         } catch (err) {
             console.log('error deleting toDo: ', err);
@@ -133,7 +138,7 @@ const App = () => {
         }
         if (searchVal !== '' && searchVal != null) {
             internalTodos = internalTodos.filter(
-                (todo) => todo.title.contains(searchVal) || todo.description.contains(searchVal)
+                (todo) => todo.title.includes(searchVal) || todo.description.includes(searchVal)
             );
         }
 
@@ -143,7 +148,7 @@ const App = () => {
                     internalTodos.map((todo, index) => {
                         return (
                             <div key={todo.id ? todo.id : index} className="ToDoCard">
-                                <ToDoItem todo={todo} handleUpdate={handleUpdate}/>
+                                <ToDoItem todo={todo} handleUpdate={handleChange}/>
                             </div>
                         );
                     })

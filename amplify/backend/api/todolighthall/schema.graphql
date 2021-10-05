@@ -1,0 +1,20 @@
+type Todo
+  @model
+  @auth(rules: [{ allow: owner }])
+  @aws_cognito_user_pools
+{
+  id: ID!
+  title: String!
+  description: String
+  status: ToDoStatus
+  dueDate: String
+  createdAt: String!
+  updatedAt: String
+}
+
+enum ToDoStatus {
+  done
+  pending
+  in_progress
+  overdue
+}
