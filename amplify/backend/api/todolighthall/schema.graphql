@@ -1,6 +1,11 @@
 type Todo
   @model
-  @auth(rules: [{ allow: owner }])
+  @auth(rules:
+    [
+      { allow: owner }
+      { allow: owner, ownerField: "sharedWith", operations:[ update, read ] }
+    ]
+  )
   @aws_cognito_user_pools
 {
   id: ID!
@@ -10,6 +15,7 @@ type Todo
   dueDate: String
   createdAt: String!
   updatedAt: String
+  sharedWith: [String]
 }
 
 enum ToDoStatus {

@@ -14,6 +14,7 @@ export const createTodo = /* GraphQL */ `
       dueDate
       createdAt
       updatedAt
+      sharedWith
       owner
     }
   }
@@ -31,6 +32,7 @@ export const updateTodo = /* GraphQL */ `
       dueDate
       createdAt
       updatedAt
+      sharedWith
       owner
     }
   }
@@ -48,6 +50,7 @@ export const deleteTodo = /* GraphQL */ `
       dueDate
       createdAt
       updatedAt
+      sharedWith
       owner
     }
   }
