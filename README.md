@@ -1,4 +1,4 @@
-# Lighthall - Amplify
+# ToDo App - Amplify
 
 (Hosted) Link: [My app](https://dev.d37i31rmywhz2b.amplifyapp.com/) 
 
