@@ -9,7 +9,9 @@ export const createTodo = /* GraphQL */ `
     createTodo(input: $input, condition: $condition) {
       id
       title
+      queryTitle
       description
+      queryDescription
       status
       dueDate
       createdAt
@@ -27,7 +29,9 @@ export const updateTodo = /* GraphQL */ `
     updateTodo(input: $input, condition: $condition) {
       id
       title
+      queryTitle
       description
+      queryDescription
       status
       dueDate
       createdAt
@@ -45,7 +49,9 @@ export const deleteTodo = /* GraphQL */ `
     deleteTodo(input: $input, condition: $condition) {
       id
       title
+      queryTitle
       description
+      queryDescription
       status
       dueDate
       createdAt

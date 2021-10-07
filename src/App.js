@@ -13,6 +13,7 @@ import {Button} from "@mui/material";
 import {SortOutlined} from "@mui/icons-material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import {debounce} from "lodash/function";
 
 Amplify.configure(awsExports);
 var _ = require('lodash');
@@ -23,18 +24,24 @@ const App = () => {
     const [sortMethod, setSortMethod] = useState(null);
     const [searchVal, setSearchVal] = useState(null);
 
-    useEffect(() => {
-        fetchTodos();
-    }, []);
-
     // GraphQL interfaces
     async function fetchTodos() {
         try {
-            const todoData = await API.graphql(graphqlOperation(listTodos), {authMode: 'AMAZON_COGNITO_USER_POOLS'});
+            const searchQuery = searchVal.toLowerCase();
+
+            let additionalHeaders = {
+                authMode: 'AMAZON_COGNITO_USER_POOLS'
+            };
+
+            if (searchQuery !== '') {
+                additionalHeaders.input = searchQuery;
+            }
+
+            const todoData = await API.graphql(graphqlOperation(listTodos), additionalHeaders);
             const todos = todoData.data.listTodos.items;
             setTodos(todos);
         } catch (err) {
-            console.log('error fetching todos', err)
+            console.log('error fetching todos', err);
         }
     }
 
@@ -101,51 +108,10 @@ const App = () => {
 
     // Todo List constructor
     const TodoList = () => {
-        const methods = {
-            title: 'title',
-            description: 'description',
-            createdAt: 'createdAt',
-            status: 'status',
-            dueDate: 'dueDate',
-        };
-
-        const sortProp = methods[sortMethod];
-
-        let internalTodos = [...todos];
-        if (sortMethod !== '' && sortMethod != null) {
-            let secondarySort = '';
-            switch (sortProp) {
-                case 'title':
-                    secondarySort = methods['description'];
-                    break;
-                case 'description':
-                    secondarySort = methods['title'];
-                    break;
-                case 'dueDate':
-                    secondarySort = methods['title'];
-                    break;
-                case 'status':
-                    secondarySort = methods['title'];
-                    break;
-                case 'createdAt':
-                    secondarySort = methods['title'];
-                    break;
-                default:
-                    secondarySort = methods['description'];
-                    break;
-            }
-            internalTodos = _.orderBy(internalTodos, [sortProp, secondarySort], ['asc', 'asc']);
-        }
-        if (searchVal !== '' && searchVal != null) {
-            internalTodos = internalTodos.filter(
-                (todo) => todo.title.includes(searchVal) || todo.description.includes(searchVal)
-            );
-        }
-
         return (
             <div className="ToDoList">
                 {
-                    internalTodos.map((todo, index) => {
+                    todos.map((todo, index) => {
                         return (
                             <div key={todo.id ? todo.id : index} className="ToDoCard">
                                 <ToDoItem todo={todo} handleUpdate={handleChange}/>
@@ -171,9 +137,9 @@ const App = () => {
         setMenuView(null);
     }
 
-    const handleSearch = (newSearch) => {
+    const handleSearch = debounce((newSearch) => {
         setSearchVal(newSearch);
-    }
+    }, 200)
 
     return (
         <div>

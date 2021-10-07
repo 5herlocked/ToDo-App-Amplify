@@ -1,20 +1,43 @@
 type Todo
   @model
-  @auth(rules:
-    [
-      { allow: owner }
-      { allow: owner, ownerField: "sharedWith", operations:[ update, read ] }
-    ]
+  @auth(
+    rules:
+      [
+        { allow: owner }
+        { allow: owner, ownerField: "sharedWith", operations:[ update, read ] }
+      ]
+  )
+  @key(
+    name: "byTitle"
+    fields: ["id", "title"]
+    queryField: "todoByTitle"
+  )
+  @key(
+    name: "byDescription"
+    fields: ["id", "description"]
+    queryField: "todoByDescription"
+  )
+  @key(
+    name: "byDueDate"
+    fields: ["id", "dueDate"]
+    queryField: "todoByDueDate"
+  )
+  @key(
+    name: "byStatus"
+    fields: ["id", "status"]
+    queryField: "todoByStatus"
   )
   @aws_cognito_user_pools
 {
   id: ID!
   title: String!
+  queryTitle: String
   description: String
+  queryDescription: String
   status: ToDoStatus
-  dueDate: String
-  createdAt: String!
-  updatedAt: String
+  dueDate: AWSDateTime
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime
   sharedWith: [String]
 }
 
