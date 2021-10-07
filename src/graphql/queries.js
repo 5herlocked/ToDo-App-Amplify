@@ -6,7 +6,9 @@ export const getTodo = /* GraphQL */ `
     getTodo(id: $id) {
       id
       title
+      queryTitle
       description
+      queryDescription
       status
       dueDate
       createdAt
@@ -26,7 +28,9 @@ export const listTodos = /* GraphQL */ `
       items {
         id
         title
+        queryTitle
         description
+        queryDescription
         status
         dueDate
         createdAt

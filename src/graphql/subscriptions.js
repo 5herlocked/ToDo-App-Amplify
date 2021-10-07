@@ -6,7 +6,9 @@ export const onCreateTodo = /* GraphQL */ `
     onCreateTodo(owner: $owner, sharedWith: $sharedWith) {
       id
       title
+      queryTitle
       description
+      queryDescription
       status
       dueDate
       createdAt
@@ -21,7 +23,9 @@ export const onUpdateTodo = /* GraphQL */ `
     onUpdateTodo(owner: $owner, sharedWith: $sharedWith) {
       id
       title
+      queryTitle
       description
+      queryDescription
       status
       dueDate
       createdAt
@@ -36,7 +40,9 @@ export const onDeleteTodo = /* GraphQL */ `
     onDeleteTodo(owner: $owner, sharedWith: $sharedWith) {
       id
       title
+      queryTitle
       description
+      queryDescription
       status
       dueDate
       createdAt

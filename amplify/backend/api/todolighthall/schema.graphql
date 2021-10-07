@@ -10,7 +10,9 @@ type Todo
 {
   id: ID!
   title: String!
+  queryTitle: String
   description: String
+  queryDescription: String
   status: ToDoStatus
   dueDate: String
   createdAt: String!

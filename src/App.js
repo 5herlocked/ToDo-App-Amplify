@@ -13,6 +13,7 @@ import {Button} from "@mui/material";
 import {SortOutlined} from "@mui/icons-material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import {debounce} from "lodash/function";
 
 Amplify.configure(awsExports);
 var _ = require('lodash');
@@ -43,7 +44,9 @@ const App = () => {
             // basic validation
             if (!formState.title || !formState.description) return
 
-            const todo = {...formState};
+            let todo = {...formState};
+            todo.queryDescription = todo.description.toLowerCase();
+            todo.queryTitle = todo.title.toLowerCase();
             // create an array of all previous todos with the new todo
             // reset to default of empty, empty
 
@@ -102,8 +105,8 @@ const App = () => {
     // Todo List constructor
     const TodoList = () => {
         const methods = {
-            title: 'title',
-            description: 'description',
+            title: 'queryTitle',
+            description: 'queryDescription',
             createdAt: 'createdAt',
             status: 'status',
             dueDate: 'dueDate',
@@ -112,6 +115,15 @@ const App = () => {
         const sortProp = methods[sortMethod];
 
         let internalTodos = [...todos];
+        for (let i = 0; i < internalTodos.length; i++) {
+            let tempToDo = internalTodos[i];
+            if (tempToDo.queryDescription === null || tempToDo.queryTitle === null) {
+                tempToDo.queryTitle = tempToDo.title.toLowerCase();
+                tempToDo.queryDescription = tempToDo.description.toLowerCase();
+            }
+            internalTodos[i] = tempToDo;
+        }
+
         if (sortMethod !== '' && sortMethod != null) {
             let secondarySort = '';
             switch (sortProp) {
@@ -137,8 +149,9 @@ const App = () => {
             internalTodos = _.orderBy(internalTodos, [sortProp, secondarySort], ['asc', 'asc']);
         }
         if (searchVal !== '' && searchVal != null) {
+            const searchQuery = searchVal.toLowerCase();
             internalTodos = internalTodos.filter(
-                (todo) => todo.title.includes(searchVal) || todo.description.includes(searchVal)
+                (todo) => todo.queryTitle.includes(searchQuery) || todo.queryDescription.includes(searchQuery)
             );
         }
 
@@ -171,9 +184,9 @@ const App = () => {
         setMenuView(null);
     }
 
-    const handleSearch = (newSearch) => {
+    const handleSearch = debounce((newSearch) => {
         setSearchVal(newSearch);
-    }
+    }, 200)
 
     return (
         <div>
