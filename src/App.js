@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Amplify, {API, graphqlOperation} from "aws-amplify";
 import {createTodo, deleteTodo, updateTodo} from "./graphql/mutations";
-import {listTodos} from "./graphql/queries";
+import {listTodos, todoByDescription, todoByDueDate, todoByStatus, todoByTitle} from "./graphql/queries";
 import awsExports from './aws-exports';
 import {withAuthenticator} from "@aws-amplify/ui-react";
 import AmplifyBar from "./components/AmplifyBar";
@@ -24,20 +24,45 @@ const App = () => {
     const [sortMethod, setSortMethod] = useState(null);
     const [searchVal, setSearchVal] = useState(null);
 
+    useEffect(() => {
+        fetchTodos();
+    });
+
     // GraphQL interfaces
     async function fetchTodos() {
         try {
-            const searchQuery = searchVal.toLowerCase();
-
+            let query = listTodos;
             let additionalHeaders = {
                 authMode: 'AMAZON_COGNITO_USER_POOLS'
             };
 
-            if (searchQuery !== '') {
-                additionalHeaders.input = searchQuery;
+            if (searchVal !== '' && searchVal !== null) {
+                additionalHeaders.input = searchVal.toLowerCase();
             }
 
-            const todoData = await API.graphql(graphqlOperation(listTodos), additionalHeaders);
+            if (sortMethod !== '' && sortMethod != null) {
+                switch (sortMethod){
+                    case 'title':
+                        query = todoByTitle;
+                        break;
+                    case 'description':
+                        query = todoByDescription;
+                        break;
+                    case 'status':
+                        query = todoByStatus;
+                        break;
+                    case 'dueDate':
+                        query = todoByDueDate;
+                        break;
+                    default:
+                        query = listTodos;
+                        break;
+                }
+
+                // We could also do ascending/descending from here
+            }
+
+            const todoData = await API.graphql(graphqlOperation(query), additionalHeaders);
             const todos = todoData.data.listTodos.items;
             setTodos(todos);
         } catch (err) {

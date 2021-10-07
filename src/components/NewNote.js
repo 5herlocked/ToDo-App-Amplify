@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Collapse, IconButton, Paper, Stack, TextField} from "@mui/material";
+import {Button, Collapse, IconButton, Paper, Stack, TextField} from "@mui/material";
 import {Add} from "@mui/icons-material";
 import DateAdapter from "@mui/lab/AdapterDayjs";
 import DateTimePicker from "@mui/lab/DateTimePicker";
@@ -18,12 +18,14 @@ const initState = {
 
 const NewNote = ({onAdd}) => {
     const [formState, setFormState] = useState(initState);
-
+    const [btnDisabled, setBtnDisabled] = useState(true);
     const [paperExpand, setPaperExpand] = useState(false);
     const [paperFocus, setPaperFocus] = useState(false);
 
     function setInput(key, value) {
         setFormState({...formState, [key]: value});
+        const submitDisabled = (formState.title === '') || (formState.description === '') || (formState.dueDate === '');
+        setBtnDisabled(submitDisabled);
     }
 
     const clickHandler = (val) => {
@@ -40,7 +42,7 @@ const NewNote = ({onAdd}) => {
     }
 
     function verifyLossFocus() {
-        if (!formState.title || !formState.description) {
+        if (formState.title !== '' || formState.description !== '') {
             clickHandler(true);
         } else {
             clickHandler(false);
@@ -58,12 +60,14 @@ const NewNote = ({onAdd}) => {
                     onBlur={verifyLossFocus}
                     placeholder={"Title"}
                     value={formState.title}
+                    required={true}
                     onChange={event => setInput('title', event.target.value)}/>
                 <Collapse in={paperExpand} timeout={"auto"} unmountOnExit>
                     <TextField
                         className={"DescTextField"}
                         placeholder={"Description"}
                         multiline={true}
+                        required={true}
                         value={formState.description}
                         onChange={event => setInput('description', event.target.value)}/>
                     <div className={"DueDatePicker"}>
@@ -78,9 +82,9 @@ const NewNote = ({onAdd}) => {
                                 }}
                             />
                         </LocalizationProvider>
-                        <IconButton onClick={submitHandler} sx={{float: "right"}}>
-                            <Add/>
-                        </IconButton>
+                        <Button disabled={btnDisabled} onClick={submitHandler} sx={{float: "right"}}>
+                            Submit
+                        </Button>
                     </div>
                 </Collapse>
 

@@ -35,9 +35,9 @@ type Todo
   description: String
   queryDescription: String
   status: ToDoStatus
-  dueDate: AWSDateTime
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime
+  dueDate: String
+  createdAt: String!
+  updatedAt: String
   sharedWith: [String]
 }
 
